@@ -1,0 +1,84 @@
+baseURL: "https://a-abakus.github.io/"
+languageCode: en-us
+title: abaküs
+theme: "PaperMod"
+paginate: 5
+# ---------
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+# ---------
+
+menu:
+  main:
+    - identifier: "about"
+      name: "About"
+      url: "/about/"
+    - identifier: "posts"
+      name: "Posts"
+      url: "/posts/"
+    # - identifier: Search
+    #   name: Search
+    #   url: search
+
+params:
+  env: production
+  title: abakus's blog
+  description: "abakus's blog"
+  keywords: [Blog, Portfolio, PaperMod]
+  author: abakus
+  # author: ["Me", "You"] # multiple authors
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+
+  assets:
+    favicon: "img/favicon_skull/favicon.ico"
+    favicon16x16: "img/favicon_skull/favicon-16x16.png"
+    favicon32x32: "img/favicon_skull/favicon-32x32.png"
+    apple_touch_icon: "img/favicon_skull/apple-touch-icon.png"
+
+  homeInfoParams:
+    Title: "Hi '"
+    Content: Siber güvenlik dünyasında ilerlerken karşılaştığım her yeni bilgiyi ve yolculuğum sırasında öğrendiklerimi paylaştığım bloguma hoşgeldniz. Bu blogda, kendi öğrenme süreçlerimi, karşılaştığım zorlukları ve bulduğum çözümleri aktarmaya çalışacağım.
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/a-abakus"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/abdullatifkurkcu/"
+
+  fuseOpts:
+    ignoreLocation: true
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+
+  ShowCodeCopyButtons: true
+  ShowBreadCrumbs: true
+  ShowReadingTime: true
+  ShowPostNavLinks: true
+
+  ShowShareButtons: true
+  ShareButtons: ["twitter", "linkedin", "reddit", "telegram", "whatsapp"]
+
+  # ShowRssButtonInSectionTermList: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+
+  # UseHugoToc: true
+  showtoc: true
+  tocopen: false
+
+  #  editPost:
+  #    URL: "https://"
+  #    Text: "Suggest Changes"
+  #    appendFilePath: true
