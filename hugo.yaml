@@ -82,3 +82,8 @@ params:
   #    URL: "https://"
   #    Text: "Suggest Changes"
   #    appendFilePath: true
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

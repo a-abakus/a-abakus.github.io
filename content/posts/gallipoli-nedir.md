@@ -22,6 +22,10 @@ Gallipoli Bug Bounty Community, siber güvenlik ve bug bounty alanında kendini 
 
 ### Links
 
-#### [Web Sayfası](https://gallipoli.xyz)
+<!-- #### [Web Sayfası](https://gallipoli.xyz) -->
+<!-- <br> -->
+<!-- #### [X Hesabı](https://x.com/Gallipolixyz) -->
 
-#### [X Hesabı](https://x.com/Gallipolixyz)
+<a href="https://gallipoli.xyz" target="_blank">Web Sayfası</a>
+<br>
+<a href="https://x.com/Gallipolixyz" target="_blank">X Hesabı</a>
