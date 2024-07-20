@@ -11,11 +11,19 @@ cover:
 
 #### Not: Bu araştırma benim ve Ahmet Faruk Albayrak'ın ortak çalışmasıdır. Kendisinin blogunu [burada](https://far-jute-5c7.notion.site/Event-Handlers-Protocols-HTML-Tags-Encoding-Obfuscation-Polyglot-Noscript-Blind-XSS-Test-En-2434c4f3505e4c6898f125733ddbfc5e) bulabilirsiniz.
 
+#### Not: Doğru bilinen yanlışlar doğrusu öğrenilince düzeltilecektir.
+
+#### Test ortamlarının tamamına ulaşmak için: [link](http://35.187.63.168/index.html)
+
 ---
 
-# Event Handler ile XSS
+<br>
 
-**Event Handler Nedir?**
+# Event Handler ile XSS Attack
+
+### Event Handler Nedir?
+
+[Test ortamı](http://35.187.63.168/task2/event-handlers/index.php)
 
 Event handler'lar, HTML elementleri üzerinde çeşitli olayları (event) yakalayan ve yanıt veren JavaScript kodlarıdır. En yaygın event handler'lar şunlardır:<br>
 
@@ -115,25 +123,11 @@ Encode: `%22` karakteri `"` ile aynı şeydir, `+onchange=%22alert()` kısmı is
 
 ---
 
-# URI Scheme & Protocol ile XSS
+# URI Scheme & Protocol ile XSS Attack
+
+[Test ortamı](http://35.187.63.168/task2/protocol-tag/index.php)
 
 Web uygulamalarında güvenlik açıkları, çeşitli yollarla ortaya çıkabilir ve URI (Uniform Resource Identifier) şemaları bu açıdan önemli bir riski temsil eder. URI şemaları, bir URL'nin protokol kısmını belirleyerek çeşitli türde kaynaklara erişim sağlar. Ancak, URI şemaları kötü niyetli kullanıcılar tarafından XSS saldırıları için kullanılabilir. Burada, URI şemalarının nasıl XSS saldırılarına neden olabileceğini ve belirli örnekler üzerinden bu zaafiyetlerin nasıl tetiklendiğini inceleyeceğiz.
-
-### mailto: URI Scheme
-
-```html
-<a href=mailto:"$userInput">Enter target email. Then click here to send your email</a>
-```
-
-**Paylaod**
-
-```
-someone@example.com?subject=Hello&body=><script>alert('XSS')</script>
-```
-
-**Nasıl Çalışır:** mailto: URI şeması, e-posta istemcisine bir e-posta oluşturması için komut verir. Burada body parametresine JavaScript kodu eklenmiş. Eğer bu linke tıklanırsa ve e-posta istemcisi bu JavaScript kodunu destekliyorsa, XSS saldırısı gerçekleşebilir.
-
-**Zaafiyet:** E-posta uygulamaları çoğu zaman HTML içeriği render eder, bu nedenle kötü niyetli JavaScript kodları bu tür payload'larda çalışabilir.
 
 ### img tag ile javascript: URI Scheme
 
@@ -151,7 +145,7 @@ x" onerror="javascript:alert('xss')
 
 **Zaafiyet:** JavaScript kodları onerror olayında çalıştırılabilir, bu da XSS'e yol açar.
 
-### embedd tag ile javascript: URI Scheme
+### embed tag ile javascript: URI Scheme
 
 ```html
 <embed src="$userInput"></embed>
@@ -167,7 +161,7 @@ data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
 
 **Zaafiyet:** Base64 kodlanmış veri filtrelenmediği için XSS saldırılarında kullanılabilir.
 
-### embedd tag ile data: URI Scheme
+### embed tag ile data: URI Scheme
 
 ```html
 <embed src="$userInput"></embed>
@@ -208,7 +202,9 @@ Sonuç olarak URI şemaları, XSS saldırılarına karşı hassas bir alan olabi
 
 ---
 
-# Encoding & Obfuscating ile XSS
+# Encoding & Obfuscating ile XSS Attack
+
+[Test ortamı](http://35.187.63.168/task2/encoding-obfuscating/index.php)
 
 HTML ve PHP kullanarak XSS saldırılarına karşı yapılan encoding ve obfuscation tekniklerini inceleyeceğiz. Bu kod, kullanıcıdan çeşitli encoding türlerinde veri alır ve veriyi uygun şekilde decode edip ekrana yazar. Ancak, encoding ve obfuscation yöntemleri bazen güvenlik açıklarını gizleyebilir ve bu da XSS saldırılarına yol açabilir. Her bir encoding ve obfuscation yöntemi ile ilgili detayları ele alarak, nasıl ve neden tetiklendiklerini açıklayacağız.
 
@@ -360,7 +356,9 @@ Bu örneklerde, kodlar farklı encoding türlerini kullanarak kullanıcı girdil
 
 ---
 
-# Polyglot Payload ile XSS
+# Polyglot Payload ile XSS Attack
+
+[Test ortamı](http://35.187.63.168/task2/polyglot/index.php)
 
 PHP ile yazılmış bir web uygulamasında Polyglot XSS saldırılarını inceleyeceğiz. Polyglot XSS, farklı XSS vektörlerini birleştirerek birden çok güvenlik katmanını atlatmayı amaçlayan bir saldırı türüdür. Aşağıda verilen kodlar, çeşitli filtreleme fonksiyonları kullanarak kullanıcı girdilerini işlemek için tasarlanmıştır. Ancak, bu kodun belirli zafiyetlere sahip olup olmadığını ve bu zafiyetlerin nasıl kullanılabileceğini göreceğiz.
 
@@ -447,7 +445,9 @@ Sonuç olarak Polyglot XSS saldırıları, çeşitli XSS vektörlerini birleşti
 
 ---
 
-# Noscript XSS
+# Noscript XSS Attack
+
+[Test ortamı](http://35.187.63.168/task2/noscript/index.php)
 
 NoScript XSS saldırıları, JavaScript'in devre dışı bırakıldığı, çalışmadığı veya filtrelendiği durumlarda XSS açıklarını kullanmayı amaçlayan saldırılardır. Bu tür saldırılar, JavaScript'i engelleyen güvenlik önlemlerinin etrafından dolanmak için HTML ve CSS gibi diğer web teknolojilerini kullanır. Hedef, tarayıcıda JavaScript çalıştırılamasa bile zararlı içeriklerin gösterilmesini sağlamaktır.
 
@@ -483,7 +483,9 @@ CSS içeriği : @import 'javascript:alert("XSS")';
 
 NoScript XSS saldırıları, JavaScript devre dışı bırakıldığında bile XSS açıklarından yararlanmayı hedefler. Yukarıdaki PHP kodu, kullanıcı girdilerini filtrelemeye çalışsa da, CSS ve HTML tabanlı XSS saldırılarına karşı yeterli koruma sağlamayabilir. Güvenli bir uygulama geliştirmek için, tüm kullanıcı girdilerini dikkatlice işlemek, HTML ve CSS içeriğini encode etmek ve etkili bir CSP kullanmak önemlidir.
 
-# Blind XSS
+# Blind XSS Attack
+
+[Test ortamı](http://35.187.63.168/task2/blind-xss/index.php)
 
 Blind XSS, kurbanın saldırının etkilerini doğrudan görmediği XSS saldırılarıdır. Saldırgan, hedef uygulamaya zararlı bir komut veya kod yerleştirir, ancak bu kod hemen çalışmaz; uygulamanın başka bir bölümü tarafından çalıştırıldığında etkisini gösterir. Saldırı girişleri genellikle teknik destek chat alanları, log kayıtları, e-posta bildirimleri veya yönetici panelleri gibi yerlerde tetiklenir.
 
