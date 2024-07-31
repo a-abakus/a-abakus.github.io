@@ -17,8 +17,6 @@ cover:
 
 ---
 
-<br>
-
 # Event Handler ile XSS Attack
 
 ### Event Handler Nedir?
