@@ -549,7 +549,7 @@ Sonuç olarak Polyglot XSS saldırıları, çeşitli XSS vektörlerini birleşti
 
 ---
 
-# Noscript XSS Filter ByPass & Attack
+# Noscript XSS Filter Bypass & Attack
 
 NoScript XSS saldırıları, JavaScript'in devre dışı bırakıldığı, çalışmadığı veya filtrelendiği durumlarda XSS açıklarını kullanmayı amaçlayan saldırılardır. JavaScript'in esnek doğası, yanlış kullanıldığında ciddi güvenlik açıklarına yol açabilir. Bu yazıda, \_\_defineSetter__ yönteminin XSS zafiyetine nasıl neden olabileceğini inceleyeceğiz.
 
