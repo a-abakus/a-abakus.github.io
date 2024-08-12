@@ -562,12 +562,14 @@ Bu özelliği amacının dışında kullanarak bir XSS zaafiyeti tetiklemeyi gö
   echo "<link rel='canonical' href='http://35.187.63.168/task2/noscript/canonical.php?param=" . $param . "'/>";
 ?>
 ```
-Senaryomuzda `param` değişkeni bir api, cms değişkeni veya input olabilir. Tarayıcı url alanında parametre görünmüyor fakat kaynak koda bakarsak böyle bir parametre olduğunu görebiliriz.
+Senaryomuzda `param` değişkeni bir api verisi, cms değişkeni veya input olabilir. Tarayıcı url alanında parametre görünmüyor fakat kaynak koda bakarsak böyle bir parametre olduğunu görebiliriz.
 
 ![1](/img/task2/canonical-1.png)
 
 **Payload** <br>
-`xyz' accesskey='x' onclick='alert('xss in canonical link tag')`
+```html
+xyz' accesskey='x' onclick='alert('xss in canonical link tag')
+```
 
 Modern sistemlerde link tagi içerisinde event handlerlar doğrudan çalışmayabilir, bu yüzden onclick event handlerına accesskey vermemiz gerekiyor. Payloadımızı parametreye veriyor ve reflect edip etmediğini kontrol ediyoruz.
 
