@@ -1,10 +1,10 @@
 ---
-title: "Gallipoli Bug Bounty Community Nedir?"
+title: "Gallipoli Community Nedir?"
 date: 2024-07-19T15:15:00+03:00
 author: "abakus"
 ---
 
-Gallipoli Bug Bounty Community, öğrencilere siber güvenlik ve web zaafiyetlerini öğrenmeleri için fırsatlar sunan bir topluluktur. Topluluğun ana amacı, öğrencilere güvenlik zafiyetlerini tespit etme ve bu zafiyetleri raporlama konularında rehberlik ederek onları gelecekteki bug bounty (hata avcılığı) programlarına hazırlamaktır.
+Gallipoli Community, öğrencilere siber güvenlik ve web zaafiyetlerini öğrenmeleri için fırsatlar sunan bir topluluktur. Topluluğun ana amacı, öğrencilere güvenlik zafiyetlerini tespit etme ve bu zafiyetleri raporlama konularında rehberlik ederek onları gelecekteki bug bounty (hata avcılığı) programlarına hazırlamaktır.
 
 ### Öğrenme Süreci ve Ödevler
 
@@ -12,20 +12,22 @@ Topluluk, öğrencilere pratik yapma imkanı sunmak için zaafiyetli web sayfala
 
 ### Toplulukta Mentörlerin Rolü
 
-Gallipoli Bug Bounty Community'nin bir diğer önemli unsuru da mentörlerdir. Mentörler, siber güvenlik alanında deneyimli profesyonellerdir ve öğrencilere rehberlik ederler. Öğrenciler, ödevlerini tamamlarken karşılaştıkları sorunları çözmek için mentörlerden yardım alabilirler. Mentörler, gerektiğinde ipuçları vererek ve yönlendirmelerde bulunarak öğrencilerin daha iyi anlamalarına ve problem çözme becerilerini geliştirmelerine yardımcı olurlar.
+Gallipoli Community'nin bir diğer önemli unsuru da mentörlerdir. Mentörler, siber güvenlik alanında deneyimli profesyonellerdir ve öğrencilere rehberlik ederler. Öğrenciler, ödevlerini tamamlarken karşılaştıkları sorunları çözmek için mentörlerden yardım alabilirler. Mentörler, gerektiğinde ipuçları vererek ve yönlendirmelerde bulunarak öğrencilerin daha iyi anlamalarına ve problem çözme becerilerini geliştirmelerine yardımcı olurlar.
 
 ### Topluluğun Önemi
 
 Bu topluluk, sadece teknik becerileri geliştirmekle kalmaz, aynı zamanda öğrencilerin siber güvenlik dünyasında network kurmalarına da olanak tanır. Öğrenciler, diğer katılımcılarla işbirliği yaparak ve bilgi paylaşımında bulunarak siber güvenlik kariyerleri için sağlam temeller atarlar.
 
-Gallipoli Bug Bounty Community, siber güvenlik ve bug bounty alanında kendini geliştirmek isteyen öğrenciler için mükemmel bir öğrenme ve gelişim topluluğudur. Pratik ödevler, mentör desteği ve işbirliği olanakları ile öğrencilerin bug bounty programlarına hazır hale gelmelerine yardımcı olur. Eğer siz de siber güvenlik alanında kariyer yapmayı hedefliyorsanız, Gallipoli Bug Bounty Community'e katılarak bu yolculukta bir adım öne geçebilirsiniz.
+Gallipoli Community, siber güvenlik ve bug bounty alanında kendini geliştirmek isteyen öğrenciler için mükemmel bir öğrenme ve gelişim topluluğudur. Pratik ödevler, mentör desteği ve işbirliği olanakları ile öğrencilerin bug bounty programlarına hazır hale gelmelerine yardımcı olur. Eğer siz de siber güvenlik alanında kariyer yapmayı hedefliyorsanız, Gallipoli Community'e katılarak bu yolculukta bir adım öne geçebilirsiniz.
 
-### Links
+### Linkler
 
 <!-- #### [Web Sayfası](https://gallipoli.xyz) -->
 <!-- <br> -->
 <!-- #### [X Hesabı](https://x.com/Gallipolixyz) -->
 
 <a href="https://gallipoli.xyz" target="_blank">Web Sayfası</a>
+<br>
+<a href="https://www.linkedin.com/company/gallipolixyz/" target="_blank">Linkedin Hesabı</a>
 <br>
 <a href="https://x.com/Gallipolixyz" target="_blank">X Hesabı</a>

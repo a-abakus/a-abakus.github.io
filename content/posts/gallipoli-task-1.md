@@ -1,5 +1,5 @@
 ---
-title: Gallipoli Bug Bounty Community Task 1
+title: Gallipoli Community - Bug Bounty Task 1
 date: 2024-07-19T15:51:44+03:00
 ---
 
