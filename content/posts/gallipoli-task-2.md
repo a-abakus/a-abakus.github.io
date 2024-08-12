@@ -1,5 +1,5 @@
 ---
-title: Gallipoli Bug Bounty Community Task 2
+title: Gallipoli Community - Bug Bounty Task 2
 date: 2024-07-19T15:51:46+03:00
 tags: ["web", "xss", "bug"]
 
@@ -549,9 +549,47 @@ Sonuç olarak Polyglot XSS saldırıları, çeşitli XSS vektörlerini birleşti
 
 ---
 
+# Noscript XSS Attack in Canonical Link Tag
+
+[Test ortamı](http://35.187.63.168/task2/noscript/canonical.php)
+
+JavaScriptin kullanılmadığı fakat bir inputun HTML link tagleri içerisinde kullanıldığında karşımıza çıkan bir zaafiyet türüdür. Canonical link tagi, web sayfalarının arama motorlarında doğru şekilde indekslenmesi için kullanılır. Bu tag, belirli bir sayfanın orijinal veya tercih edilen versiyonunu belirtir. Özellikle benzer içeriklerin birden fazla url üzerinde bulunması durumunda, arama motorlarının hangi sayfanın ana sürüm olduğunu anlamasını sağlar. Bu sayede, yinelenen içerik sorunları önlenir ve seo performansı optimize edilir. Genelde statik olarak tanımlanan bu url bazı durumlarda dinamik olarak kullanılabilir. Örnek olarak canonical url'leri belirlemek için api kullanılabilir. Bu araçlar, site sahiplerinin veya seo uzmanlarının url'leri yönetmelerine ve seo stratejilerini optimize etmelerine yardımcı olabilir. Yada aynı içeriğin farklı dillerdeki veya bölgelerdeki versiyonları olabilir. Bu durumda, her dil veya bölge için doğru canonical url'leri sağlamak gerekebilir ve bu bilgi bir api'dan alınıyor olabilir.
+Bu özelliği amacının dışında kullanarak bir XSS zaafiyeti tetiklemeyi görelim.
+
+### Test Case
+```php
+<?php
+  echo "<link rel='canonical' href='http://35.187.63.168/task2/noscript/canonical.php?param=" . $param . "'/>";
+?>
+```
+Senaryomuzda `param` değişkeni bir api, cms değişkeni veya input olabilir. Tarayıcı url alanında parametre görünmüyor fakat kaynak koda bakarsak böyle bir parametre olduğunu görebiliriz.
+
+![1](/img/task2/canonical-1.png)
+
+**Payload** <br>
+`xyz' accesskey='x' onclick='alert('xss in canonical link tag')`
+
+Modern sistemlerde link tagi içerisinde event handlerlar doğrudan çalışmayabilir, bu yüzden onclick event handlerına accesskey vermemiz gerekiyor. Payloadımızı parametreye veriyor ve reflect edip etmediğini kontrol ediyoruz.
+
+![2](/img/task2/canonical-2.png)
+
+Reflect ettiğini doğruluyoruz. Payloadımızın çalışmasını test etmek için işletim sistemine bağlı olarak bazı klavye girdilerine ihtiyacımız var.
+
+- Linux : `ALT + X`
+- MacOS : `CTRL + ALT + X`
+- Windows : `ALT + SHIFT + X`
+
+Payloadımız başarılı bir şekilde çalışıyor ve alert tetikleniyor.
+
+![3](/img/task2/canonical-3.png)
+
+Canonical Link Tag'in ne olduğunu, bu etiket içindeki xss zaafiyetinin nasıl meydana geldiğini ve bu zaafiyetin nasıl exploit edilebileceğini ele aldık. Kullanıcıdan veya harici kaynaktan gelen verilerin doğrudan HTML çıktısına yerleştirilmesi, xss saldırılarına kapı aralar. Bu tür güvenlik açıklarını önlemek için, kullanıcıdan gelen girdilerin uygun şekilde sanitize edilmesi ve güvenlik önlemlerinin alınması büyük önem taşır.
+
+---
+
 # Noscript XSS Filter Bypass & Attack
 
-NoScript XSS saldırıları, JavaScript'in devre dışı bırakıldığı, çalışmadığı veya filtrelendiği durumlarda XSS açıklarını kullanmayı amaçlayan saldırılardır. JavaScript'in esnek doğası, yanlış kullanıldığında ciddi güvenlik açıklarına yol açabilir. Bu yazıda, \_\_defineSetter__ yönteminin XSS zafiyetine nasıl neden olabileceğini inceleyeceğiz.
+Noscript XSS saldırıları, JavaScript'in devre dışı bırakıldığı, çalışmadığı veya filtrelendiği durumlarda XSS açıklarını kullanmayı amaçlayan saldırılardır. JavaScript'in esnek doğası, yanlış kullanıldığında ciddi güvenlik açıklarına yol açabilir. Bu yazıda, \_\_defineSetter__ yönteminin XSS zafiyetine nasıl neden olabileceğini inceleyeceğiz.
 
 ### \_\_defineSetter__ Nedir?
 \_\_defineSetter__ JavaScript'te bir nesnenin özelliğini bir fonksiyona bağlamayı sağlar. Özellik ayarlandığında belirlenen fonksiyon çalışır.
@@ -568,7 +606,7 @@ obj.prop = 123;// Konsolda "prop set to 123" mesajı görüntülenmesi beklenir
 ### \_\_defineSetter__ ile XSS Saldırısı
 PortSwigger araştırmacılarından Gareth Heyes'in [NoScript XSS filter bypass](https://portswigger.net/research/noscript-xss-filter-bypass) araştırmasında, \_\_defineSetter__ yönteminin XSS filtrelerini nasıl atlatabileceğini göstermektedir. Saldırgan, window nesnesinde bir setter tanımlanarak ve bu özellik ayarlandığında zararlı kod çalıştırarak XSS filtrelerini atlatabilir.
 
-### Saldırı Örneği
+### Test Case
 ```javascript
 <script> x = ''.__defineSetter__('x', alert), x = 1, '';</script>
 ```
